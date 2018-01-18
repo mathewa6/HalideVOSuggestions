@@ -4,7 +4,7 @@ HalideVOSuggestions
 
 A project to test and prototype VoiceOver features to make leveling and focus states in video/photo apps clearer.
 
-This version is altered for readability. The only file needed to understand whats going on is the main ViewController (AXOViewController). All implementation details can be viewed in the Supporting files group in Xcode.
+This version is altered for readability. The only file needed to understand whats going on is the main ViewController (AXOViewController). Please do read the comments at the top of the ViewController file for a detailed overview of this project. All implementation details can be viewed in the Supporting files group in Xcode.
 
 ## Notes
 
