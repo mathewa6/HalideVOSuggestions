@@ -12,8 +12,8 @@ This prototype was used to test the following:
 
 - Thickening of centered grid lines if VoiceOver (VO) is active
 - Addition of audio tone when overlay grid is centered and VO is active
-- (Usability) Increasing the threshold for decentering once a VO has centered the layout grid
-- Slight change in hue of centered grid if environment lighting is bright (This should be changed to factor in color as well)
+- (Usability) Increasing the threshold for decentering once a VO user has centered the layout grid giving a very mild "stickiness" to centering
+- Slight change in brightness of the tint color for the centered grid if environment lighting is bright (This should be changed to factor in color of the environment being photographed as well)
 
 ## Images
 
