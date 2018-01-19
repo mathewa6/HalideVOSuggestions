@@ -164,7 +164,12 @@ class AXOViewController: UIViewController {
         // rotation in x,y planes and z axis data as a 3 item tuple that the overlay handles.
         
         self.motionManager.startMotionUpdates(withVisualUpdates: { (data: AXOOverlayView.Update) in
+            
+            // Rotate the center level grid
             let visualCenterStatus = self.overlayView.updateView(with: data)
+            
+            // Update the grid if we switch from portrait to landscape or vice versa
+            self.updateGridOrientation(withData: data)
             
             return visualCenterStatus
         })
@@ -229,7 +234,17 @@ class AXOViewController: UIViewController {
     
     
     // ------------------------------------
-    // MARK: - Boilerplate/Ignore
+    // MARK: - Boilerplate/Ignore these methods
+    
+    // Ignore: Outlets for the constraints to switch when in portrait/landscape
+    @IBOutlet var heightConstraint: NSLayoutConstraint!
+    @IBOutlet var originalHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var widthConstraint: NSLayoutConstraint!
+    @IBOutlet var originalWidthConstraint: NSLayoutConstraint!
+    
+    // Bool indicating whether the overlayView is using portrait or landscape constraints
+    private var isUsingOriginalConstraint: Bool = true
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -254,11 +269,47 @@ class AXOViewController: UIViewController {
         self.overlayStaticBorder.borderOffset = 3.0
     }
     
+    private func updateGridOrientation(withData data: AXOOverlayView.Update) {
+        let degrees: Int = Int(abs(data.rotationXY) * 180.0/Double.pi)
+        
+        if !((260...280 ~= degrees) || (80...100 ~= degrees)) {
+            
+            if !(self.isUsingOriginalConstraint) {
+                self.view.removeConstraints([self.widthConstraint, self.heightConstraint])
+                self.view.addConstraints([self.originalWidthConstraint, self.originalHeightConstraint])
+            }
+            
+            self.widthConstraint.isActive = false
+            self.heightConstraint.isActive = false
+            
+            self.originalWidthConstraint.isActive = true
+            self.originalHeightConstraint.isActive = true
+            
+            self.isUsingOriginalConstraint = true
+        } else {
+            
+            if self.isUsingOriginalConstraint {
+                self.view.removeConstraints([self.originalWidthConstraint, self.originalHeightConstraint])
+                self.view.addConstraints([self.widthConstraint, self.heightConstraint])
+            }
+            
+            self.widthConstraint.isActive = true
+            self.heightConstraint.isActive = true
+            
+            self.originalWidthConstraint.isActive = false
+            self.originalHeightConstraint.isActive = false
+            
+            self.isUsingOriginalConstraint = false
+        }
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
+    // ------------------------------------
 }
 
+// ------------------------------------
 // MARK:- AVCaptureVideoData Buffer delegate
 // Extension where we check each frame captured for brightness and luma
 // If the scene is brighter than a certain threshold, we darken the centering grids color
@@ -288,7 +339,7 @@ extension AXOViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         let lumaCenter = byteBuffer[540 * bytesPerRow + 960]
         
         /*
-        // There's probably a more efficient way to calculate an average luma over the grids area.
+        // There's more efficient ways to calculate an average luma over the grids area.
         // We essentially want to combine a measure of environment brightness with screen pixel contrast to ensure the grids color is discernible against any bright colors present.
         let luma1 = byteBuffer[270 * bytesPerRow + 480]
         let luma2 = byteBuffer[810 * bytesPerRow + 480]

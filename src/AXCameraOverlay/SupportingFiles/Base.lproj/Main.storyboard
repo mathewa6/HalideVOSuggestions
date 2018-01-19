@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,11 +21,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HgM-6r-aXJ" customClass="AXOStaticView" customModule="AXCameraOverlay" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="10" width="375" height="667"/>
+                                <rect key="frame" x="0.5" y="10" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eeD-Rv-Hf7" customClass="AXOOverlayView" customModule="AXCameraOverlay" customModuleProvider="target">
-                                <rect key="frame" x="93.5" y="177" width="187.5" height="333.5"/>
+                                <rect key="frame" x="93.5" y="177.5" width="187.5" height="333.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -35,15 +36,27 @@
                             <constraint firstItem="HgM-6r-aXJ" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="4Nb-YS-Yma"/>
                             <constraint firstItem="eeD-Rv-Hf7" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="9y9-sx-hnL"/>
                             <constraint firstItem="HgM-6r-aXJ" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="DmS-Iz-hqU"/>
+                            <constraint firstItem="eeD-Rv-Hf7" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="width" multiplier="1:2" id="EOh-5N-hHz"/>
                             <constraint firstItem="HgM-6r-aXJ" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="NnP-yJ-YRF"/>
+                            <constraint firstItem="eeD-Rv-Hf7" firstAttribute="width" secondItem="6Tk-OE-BBY" secondAttribute="height" multiplier="1:2" id="QxM-mF-Dgf"/>
                             <constraint firstItem="eeD-Rv-Hf7" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="1:2" id="hVs-yT-g53"/>
                             <constraint firstItem="eeD-Rv-Hf7" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="zoy-jc-DFM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="EOh-5N-hHz"/>
+                                <exclude reference="QxM-mF-Dgf"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
+                        <outlet property="heightConstraint" destination="EOh-5N-hHz" id="86m-RF-NWh"/>
+                        <outlet property="originalHeightConstraint" destination="4BC-4P-kpB" id="Qy9-CA-ATn"/>
+                        <outlet property="originalWidthConstraint" destination="hVs-yT-g53" id="t06-ig-LdP"/>
                         <outlet property="overlayStaticBorder" destination="HgM-6r-aXJ" id="T4F-ZJ-Qze"/>
                         <outlet property="overlayView" destination="eeD-Rv-Hf7" id="M1v-mO-Zl0"/>
+                        <outlet property="widthConstraint" destination="QxM-mF-Dgf" id="h6y-vY-mo5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// An enum used to depict how bright the environment is, based on incoming frames
 public enum AXOBrightnessStatus {
     case light
     case dark

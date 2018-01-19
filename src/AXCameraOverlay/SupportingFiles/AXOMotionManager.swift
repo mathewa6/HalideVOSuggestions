@@ -43,10 +43,13 @@ public class AXOMotionManager {
             
             var updateData: AXOOverlayView.Update = (.unknown, 0, 0)
 
+            // ------
+            // The following checks whether we're allowed to alter the threshold used to determine whether the grid is centered. This is true only if VO is on.
+    
             if self.thresholdSwitching {
                 // This switch check is to slightly increase the threshold used for center checking.
                 // This is done to prevent rapid repeated on/off sounds.
-                // You can see what I mean by using default threshold in both branches
+                // You can see what I mean by using the default threshold value in both branches below
                 let threshold: Int = AXOConstants.DEFAULT_CENTERING_THRESHOLD
                 switch self.lastStatus {
                 case .notCentered:
@@ -60,12 +63,13 @@ public class AXOMotionManager {
             } else {
                 updateData = AXOCenterStatus.status(basedOnGravity: gravity)
             }
-            
+            // ------
+
             self.lastStatus = updateData.centerStatus
             
             
             OperationQueue.main.addOperation {
-                // This only works for AXOVC centering.
+                // This branch only works for AXOVC centering.
                 // NotificationCenter condition below can be easily done in the passed in block
                 
                 // Safe unwrap of centerstatus since it is only set when there is a change of status

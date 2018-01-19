@@ -9,6 +9,7 @@
 import CoreMotion
 import UIKit
 
+/// An enum used to represent whether the level grid is centered or not
 public enum AXOCenterStatus {
     case centered
     case notCentered
